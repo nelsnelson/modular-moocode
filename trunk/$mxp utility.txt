@@ -1,0 +1,83 @@
+@create $db named MXP Database:MXP Database,mxp
+"Search and replace #YOURMXPOBJNUM with the object number generated above before copying the rest!";
+@prop #YOURMXPOBJNUM."tag_open_line" "" rc #7527
+@prop #YOURMXPOBJNUM."tag_secure_line" "" rc #7527
+@prop #YOURMXPOBJNUM."tag_locked_line" "" rc #7527
+@prop #YOURMXPOBJNUM."tag_reset" "" rc #7527
+@prop #YOURMXPOBJNUM."tag_temp_secure_mode" "" rc #7527
+@prop #YOURMXPOBJNUM."tag_lock_open_mode" "" rc #7527
+@prop #YOURMXPOBJNUM."tag_lock_secure_mode" "" rc #7527
+@prop #YOURMXPOBJNUM."tag_lock_locked_mode" "" rc #7527
+@prop #YOURMXPOBJNUM."tag_room_name" "" rc #7527
+@prop #YOURMXPOBJNUM."tag_room_description" "" rc #7527
+@prop #YOURMXPOBJNUM."tag_room_exits" "" rc #7527
+@prop #YOURMXPOBJNUM."tag_welcome_text" "" rc #7527
+"All tags must be manually set to the escape codes used by MXP - see the spec!";
+@prop #YOURMXPOBJNUM."code_IAC" 255 rc #7527
+@prop #YOURMXPOBJNUM."code_SB" 250 rc #7527
+@prop #YOURMXPOBJNUM."code_WILL" 251 rc #7527
+@prop #YOURMXPOBJNUM."code_WONT" 252 rc #7527
+@prop #YOURMXPOBJNUM."code_SE" 240 rc #7527
+@prop #YOURMXPOBJNUM."elements" {} rc
+
+@verb #YOURMXPOBJNUM:"escape" this none this rxd #2
+@program #YOURMXPOBJNUM:escape
+what = args[1];
+what = strsub(what, "<", "&lt;");
+what = strsub(what, ">", "&gt;");
+return what;
+.
+
+@verb #YOURMXPOBJNUM:"activate" this none this rxd #2
+@program #YOURMXPOBJNUM:activate
+who = args[1];
+this:tell(who, encode_binary(this.code_IAC, this.code_WILL, "[", 0));
+this:tell(who, encode_binary(this.code_IAC, this.code_SB, "[", this.code_IAC, this.code_SE, 0));
+this:tell(who, this.tag_lock_locked_mode);
+this:define_elements(who);
+who:tell("MXP mode activated!");
+.
+
+@verb #YOURMXPOBJNUM:"define_elements" this none this rxd #2
+@program #YOURMXPOBJNUM:define_elements
+who = args[1];
+this:tell_secure_line(who, $su:from_list(this.elements, ""));
+.
+
+@verb #YOURMXPOBJNUM:"tell" this none this rxd #2
+@program #YOURMXPOBJNUM:tell
+args[1]:notify(@args[2..$]);
+.
+
+@verb #YOURMXPOBJNUM:"tell_open_line" this none this rxd #2
+@verb #YOURMXPOBJNUM:"tell_secure_line" this none this rxd #2
+@program #YOURMXPOBJNUM:tell_secure_line
+who = args[1];
+line = args[2..$];
+tag = this.tag_secure_line;
+notify(who, tostr(tag, @line, this.tag_reset));
+.
+
+@verb #YOURMXPOBJNUM:"tell_locked_line" this none this rxd #2
+@program #YOURMXPOBJNUM:tell_locked_line
+who = args[1];
+line = args[2..$];
+tag = this.tag_locked_line;
+notify(who, tostr(tag, @line));
+.
+
+@verb #YOURMXPOBJNUM:"deactivate" this none this rxd #2
+@program #YOURMXPOBJNUM:deactivate
+who = args[1];
+$mxp:tell_secure_line(who, "<MXP OFF>");
+.
+
+@verb #YOURMXPOBJNUM:"tell_lines_secure_line" this none this rxd #8534
+@program #YOURMXPOBJNUM:tell_lines_secure_line
+{who, lines} = args;
+for x in (lines)
+  $mxp:tell_secure_line(who, x);
+endfor
+.
+
+"***finished***
