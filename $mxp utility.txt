@@ -69,14 +69,14 @@ notify(who, tostr(tag, @line));
 @verb #YOURMXPOBJNUM:"deactivate" this none this rxd #2
 @program #YOURMXPOBJNUM:deactivate
 who = args[1];
-$mxp:tell_secure_line(who, "<MXP OFF>");
+this:tell_secure_line(who, "<MXP OFF>");
 .
 
 @verb #YOURMXPOBJNUM:"tell_lines_secure_line" this none this rxd #8534
 @program #YOURMXPOBJNUM:tell_lines_secure_line
 {who, lines} = args;
 for x in (lines)
-  $mxp:tell_secure_line(who, x);
+  this:tell_secure_line(who, x);
 endfor
 .
 
