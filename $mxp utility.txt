@@ -1,4 +1,4 @@
-@create $db named MXP Database:MXP Database,mxp
+@create #1 named MXP Database:MXP Database,mxp
 "Search and replace #YOURMXPOBJNUM with the object number generated above before copying the rest!";
 @prop #YOURMXPOBJNUM."tag_open_line" "" rc #7527
 @prop #YOURMXPOBJNUM."tag_secure_line" "" rc #7527
@@ -80,4 +80,5 @@ for x in (lines)
 endfor
 .
 
+@corify #YOURMXPOBJNUM as $mxp
 "***finished***
