@@ -1,24 +1,24 @@
 @create #1 named MXP Database:MXP Database,mxp
 "Search and replace #YOURMXPOBJNUM with the object number generated above before copying the rest!";
-@prop #YOURMXPOBJNUM."tag_open_line" "" rc #7527
-@prop #YOURMXPOBJNUM."tag_secure_line" "" rc #7527
-@prop #YOURMXPOBJNUM."tag_locked_line" "" rc #7527
-@prop #YOURMXPOBJNUM."tag_reset" "" rc #7527
-@prop #YOURMXPOBJNUM."tag_temp_secure_mode" "" rc #7527
-@prop #YOURMXPOBJNUM."tag_lock_open_mode" "" rc #7527
-@prop #YOURMXPOBJNUM."tag_lock_secure_mode" "" rc #7527
-@prop #YOURMXPOBJNUM."tag_lock_locked_mode" "" rc #7527
-@prop #YOURMXPOBJNUM."tag_room_name" "" rc #7527
-@prop #YOURMXPOBJNUM."tag_room_description" "" rc #7527
-@prop #YOURMXPOBJNUM."tag_room_exits" "" rc #7527
-@prop #YOURMXPOBJNUM."tag_welcome_text" "" rc #7527
+@prop #YOURMXPOBJNUM."tag_open_line" "" rc #2
+@prop #YOURMXPOBJNUM."tag_secure_line" "" rc #2
+@prop #YOURMXPOBJNUM."tag_locked_line" "" rc #2
+@prop #YOURMXPOBJNUM."tag_reset" "" rc #2
+@prop #YOURMXPOBJNUM."tag_temp_secure_mode" "" rc #2
+@prop #YOURMXPOBJNUM."tag_lock_open_mode" "" rc #2
+@prop #YOURMXPOBJNUM."tag_lock_secure_mode" "" rc #2
+@prop #YOURMXPOBJNUM."tag_lock_locked_mode" "" rc #2
+@prop #YOURMXPOBJNUM."tag_room_name" "" rc #2
+@prop #YOURMXPOBJNUM."tag_room_description" "" rc #2
+@prop #YOURMXPOBJNUM."tag_room_exits" "" rc #2
+@prop #YOURMXPOBJNUM."tag_welcome_text" "" rc #2
 "All tags must be manually set to the escape codes used by MXP - see the spec!";
-@prop #YOURMXPOBJNUM."code_IAC" 255 rc #7527
-@prop #YOURMXPOBJNUM."code_SB" 250 rc #7527
-@prop #YOURMXPOBJNUM."code_WILL" 251 rc #7527
-@prop #YOURMXPOBJNUM."code_WONT" 252 rc #7527
-@prop #YOURMXPOBJNUM."code_SE" 240 rc #7527
-@prop #YOURMXPOBJNUM."elements" {} rc
+@prop #YOURMXPOBJNUM."code_IAC" 255 rc #2
+@prop #YOURMXPOBJNUM."code_SB" 250 rc #2
+@prop #YOURMXPOBJNUM."code_WILL" 251 rc #2
+@prop #YOURMXPOBJNUM."code_WONT" 252 rc #2
+@prop #YOURMXPOBJNUM."code_SE" 240 rc #2
+@prop #YOURMXPOBJNUM."elements" {} rc #2
 
 @verb #YOURMXPOBJNUM:"escape" this none this rxd #2
 @program #YOURMXPOBJNUM:escape
@@ -72,7 +72,7 @@ who = args[1];
 this:tell_secure_line(who, "<MXP OFF>");
 .
 
-@verb #YOURMXPOBJNUM:"tell_lines_secure_line" this none this rxd #8534
+@verb #YOURMXPOBJNUM:"tell_lines_secure_line" this none this rxd #2
 @program #YOURMXPOBJNUM:tell_lines_secure_line
 {who, lines} = args;
 for x in (lines)
