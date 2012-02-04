@@ -55,7 +55,7 @@ args[1]:notify(@args[2..$]);
 who = args[1];
 line = args[2..$];
 tag = this.tag_secure_line;
-notify(who, tostr(tag, @line, this.tag_reset));
+notify(who, tostr(tag, @line, this.tag_lock_locked_mode));
 .
 
 @verb #YOURMXPOBJNUM:"tell_locked_line" this none this rxd #2
