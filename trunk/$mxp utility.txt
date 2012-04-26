@@ -30,10 +30,12 @@ return what;
 
 @verb #YOURMXPOBJNUM:"activate" this none this rxd #2
 @program #YOURMXPOBJNUM:activate
+"send mushclient specific telnet negotiation codes to the client";
 who = args[1];
 this:tell(who, encode_binary(this.code_IAC, this.code_WILL, "[", 0));
 this:tell(who, encode_binary(this.code_IAC, this.code_SB, "[", this.code_IAC, this.code_SE, 0));
 this:tell(who, this.tag_lock_locked_mode);
+"send pre defined MXP elements stored on $mxp.elements (as a LIST):";
 this:define_elements(who);
 who:tell("MXP mode activated!");
 .
@@ -52,6 +54,8 @@ args[1]:notify(@args[2..$]);
 @verb #YOURMXPOBJNUM:"tell_open_line" this none this rxd #2
 @verb #YOURMXPOBJNUM:"tell_secure_line" this none this rxd #2
 @program #YOURMXPOBJNUM:tell_secure_line
+"when MXP is on, all output going to the player should be in default mode LOCKED - so after sending a SECURE line we revert to LOCKED";
+"this prevents some escape character issues and is correct according to the protocol";
 who = args[1];
 line = args[2..$];
 tag = this.tag_secure_line;
@@ -74,6 +78,8 @@ this:tell_secure_line(who, "<MXP OFF>");
 
 @verb #YOURMXPOBJNUM:"tell_lines_secure_line" this none this rxd #2
 @program #YOURMXPOBJNUM:tell_lines_secure_line
+"utility verb for sending multiple lines in SECURE mode";
+"SECURE mode can update values on the client so this is great for scoresheets or room descriptions with MXP tags.";
 {who, lines} = args;
 for x in (lines)
   this:tell_secure_line(who, x);
