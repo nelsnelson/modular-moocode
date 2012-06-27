@@ -1,0 +1,63 @@
+@create $action named claim:claim
+"after running the line above, search and replace all instances of ACTION_ID with the object number you received";
+@prop $actions.claim ACTION_ID
+@prop ACTION_ID."claim_alert_chance" 25 rc
+;;ACTION_ID.("duration") = 5.0
+;;ACTION_ID.("aliases") = {"claim"}
+;;ACTION_ID.("object_size") = {0, 0}
+
+@verb ACTION_ID:"_start" this none this
+@program ACTION_ID:_start
+who = args[1];
+{what} = args[2];
+if (!this:is_sane(who, what))
+  return E_NONE;
+endif
+who:aat($su:ps(what.claim_start_msg, who, what, who:room()));
+return {this:duration(), {what}};
+.
+
+@verb ACTION_ID:"is_sane" this none this
+@program ACTION_ID:is_sane
+{who, what} = args;
+if (!$api.claimable:is_on(what))
+  who:tell("You can't claim that.");
+  return 0;
+elseif ((what.location != who) && (what.location != who.location))
+  who:tell("That must be present for you to claim it.");
+  return 0;
+endif
+return 1;
+.
+
+@verb ACTION_ID:"_continue" this none this
+@program ACTION_ID:_continue
+who = args[1];
+what = args[2][1];
+if (!this:is_sane(who, what))
+  return E_NONE;
+endif
+if (!what:attempt_claim(who))
+  return E_NONE;
+endif
+if ((who != what.controller) && (random(100) <= this.claim_alert_chance))
+  who:aat($su:ps(what.claim_continue_omsgs[random($)], who, what, who:room()));
+endif
+return {what:claim_attempt_duration(who), {what}};
+.
+
+@verb ACTION_ID:"_finish" this none this
+@program ACTION_ID:_finish
+who = args[1];
+{what} = args[2];
+if (!this:is_sane(who, what))
+  return E_NONE;
+endif
+if (what.controller == who)
+  who:aat($su:ps(what.claim_finish_msg, who, what, who:room()));
+  who:tell(what:dnamec() + " is now under your control!");
+  return E_NONE;
+endif
+return {this, {what}};
+.
+
