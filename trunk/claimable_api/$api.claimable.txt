@@ -1,45 +1,47 @@
 @create $implementing_interface named claimable:claimable
-@prop #68038."claimable" 0 rc
-@prop #68038."claim_start_msg" "%DN has begun claiming %it..." rc
-@prop #68038."claim_finish_msg" "%DN has taken control of %it in %il!" rc
-@prop #68038."claim_continue_omsgs" {} rc
-;;#68038.("claim_continue_omsgs") = {"%DN is trying to claim %it!"}
-@prop #68038."claimants" [] rc
-@prop #68038."last_claimed" 0 rc
-@prop #68038."claim_cooldown" 180 rc
-@prop #68038."claim_dc" 10 rc
-@prop #68038."abandon_start_omsg" "" rc
-@prop #68038."abandon_finish_omsg" "" rc
-@prop #68038."controller" #-1 rc
-;;#68038.("implementation") = #120922
-;;#68038.("implementors") = {#136699}
-;;#68038.("aliases") = {"claimable"}
-;;#68038.("object_size") = {0, 0}
+"run the line above then search + replace all instances of APL_CLAIM_ID with the object number of the newly created object";
+@prop API_CLAIM_ID."claimable" 0 rc
+@prop API_CLAIM_ID."claim_start_msg" "%DN has begun claiming %it..." rc
+@prop API_CLAIM_ID."claim_finish_msg" "%DN has taken control of %it in %il!" rc
+@prop API_CLAIM_ID."claim_continue_omsgs" {} rc
+;;API_CLAIM_ID.("claim_continue_omsgs") = {"%DN is trying to claim %it!"}
+@prop API_CLAIM_ID."claimants" [] rc
+@prop API_CLAIM_ID."last_claimed" 0 rc
+@prop API_CLAIM_ID."claim_cooldown" 180 rc
+@prop API_CLAIM_ID."claim_dc" 10 rc
+@prop API_CLAIM_ID."abandon_start_omsg" "" rc
+@prop API_CLAIM_ID."abandon_finish_omsg" "" rc
+@prop API_CLAIM_ID."controller" #-1 rc
 
-@verb #68038:"attempt_claim" this none this
-@verb #68038:"claim_attempt_duration" this none this
-@verb #68038:"claim_dc" this none this
+;;API_CLAIM_ID.("implementors") = {}
+;;API_CLAIM_ID.("aliases") = {"claimable"}
+;;API_CLAIM_ID.("object_size") = {0, 0}
+
+@verb API_CLAIM_ID:"attempt_claim" this none this
+@verb API_CLAIM_ID:"claim_attempt_duration" this none this
+@verb API_CLAIM_ID:"claim_dc" this none this
 
 "END OF $api.claimable - starting $api.claimable.implementation";
 
 @create $impl named implementation of $api.claimable:implementation of $api.claimable
-@prop #120922."claimable" 0 rc
-@prop #120922."claim_start_msg" "%DN has begun claiming %it..." rc
-@prop #120922."claimants" [] rc
-@prop #120922."last_claimed" 0 rc
-@prop #120922."claim_cooldown" 180 rc
-@prop #120922."claim_dc" 10 rc
-@prop #120922."abandon_start_omsg" "" rc
-@prop #120922."abandon_finish_omsg" "" rc
-@prop #120922."controller" #-1 rc
-@prop #120922."claim_finish_msg" "[ %DN has claimed %it successfully! ]" rc
-@prop #120922."claim_continue_omsgs" {} rc
-;;#120922.("claim_continue_omsgs") = {"%DN is trying to claim %it!"}
-;;#120922.("aliases") = {"implementation of $api.claimable"}
-;;#120922.("object_size") = {0, 0}
+"run the line above then search + replace all instances of APL_IMPL_ID with the object number of the newly created object";
+@prop API_IMPL_ID."claimable" 0 rc
+@prop API_IMPL_ID."claim_start_msg" "%DN has begun claiming %it..." rc
+@prop API_IMPL_ID."claimants" [] rc
+@prop API_IMPL_ID."last_claimed" 0 rc
+@prop API_IMPL_ID."claim_cooldown" 180 rc
+@prop API_IMPL_ID."claim_dc" 10 rc
+@prop API_IMPL_ID."abandon_start_omsg" "" rc
+@prop API_IMPL_ID."abandon_finish_omsg" "" rc
+@prop API_IMPL_ID."controller" #-1 rc
+@prop API_IMPL_ID."claim_finish_msg" "[ %DN has claimed %it successfully! ]" rc
+@prop API_IMPL_ID."claim_continue_omsgs" {} rc
+;;API_IMPL_ID.("claim_continue_omsgs") = {"%DN is trying to claim %it!"}
+;;API_IMPL_ID.("aliases") = {"implementation of $api.claimable"}
+;;API_IMPL_ID.("object_size") = {0, 0}
 
-@verb #120922:"attempt_claim" this none this
-@program #120922:attempt_claim
+@verb API_IMPL_ID:"attempt_claim" this none this
+@program API_IMPL_ID:attempt_claim
 {what, who} = args;
 {started, prog} = {time(), 1};
 if (who in keys(what.claimants))
@@ -74,15 +76,15 @@ who:tell("Your claim: ", $meter_utils:graphical_bar(prog, 100, 20, gain, $ansi.b
 return prog;
 .
 
-@verb #120922:"claim_attempt_duration" this none this
-@program #120922:claim_attempt_duration
+@verb API_IMPL_ID:"claim_attempt_duration" this none this
+@program API_IMPL_ID:claim_attempt_duration
 return tofloat(args[1].claim_dc) / 2.0;
 .
 
-@verb #120922:"claim_dc" this none this
-@program #120922:claim_dc
+@verb API_IMPL_ID:"claim_dc" this none this
+@program API_IMPL_ID:claim_dc
 {what, who} = args;
 return what.claim_dc;
 .
-
-"***finished***
+;;API_CLAIM_ID.("implementation") = API_IMPL_ID
+@prop $api.claimable API_CLAIM_ID
