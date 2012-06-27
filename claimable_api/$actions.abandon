@@ -1,0 +1,42 @@
+@create $action named abandon:abandon
+"excute the line above and then search + replace all instances of ACTION_ID with the object number you receive";
+;;ACTION_ID.("duration") = 12.0
+;;ACTION_ID.("aliases") = {"abandon"}
+;;ACTION_ID.("object_size") = {0, 0}
+
+@verb ACTION_ID:"_start" this none this
+@program ACTION_ID:_start
+who = args[1];
+what = args[2][1];
+if (!this:is_sane(who, what))
+  return E_NONE;
+endif
+if (m = $su:ps(what.abandon_start_omsg, who, what, who:room()))
+  who:aat(m);
+endif
+who:tell(((("You have begun abandoning " + what:dname()) + " - this will take around ") + tostr(this:duration())) + " seconds.");
+return {this:duration(), {what}};
+.
+
+@verb ACTION_ID:"is_sane" this none this
+@program ACTION_ID:is_sane
+{who, what};
+if ((!$api.claimable:is_on(what)) || (who != what.controller))
+  who:tell("You can't abandon that.");
+  return 0;
+endif
+return 1;
+.
+
+@verb ACTION_ID:"_finish" this none this
+@program ACTION_ID:_finish
+who = args[1];
+what = args[2][1];
+if (!this:is_sane(who, what))
+  return E_NONE;
+endif
+if (m = $su:ps(what.abandon_finish_omsg, who, what, who:room()))
+  who:aat(m);
+endif
+what.controller = #-1;
+.
