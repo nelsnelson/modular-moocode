@@ -1,0 +1,1 @@
+Moocode is the language used for the lambdamoo server and derivatives.  This code group is focused on the Hellcore lambdamoo database and code modules for use with it, as well as other modular moocode modules.
